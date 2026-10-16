@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DemandOpt AI - Comprehensive Project Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+  body {
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+    color: #1a202c;
+    line-height: 1.6;
+    font-size: 11pt;
+    margin: 0;
+    padding: 20px;
+    background: #fff;
+  }
+  .header-block {
+    text-align: center;
+    border-bottom: 2px solid #2b6cb0;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+  }
+  .college-title {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #2b6cb0;
+    margin: 0;
+  }
+  .dept-title {
+    font-size: 13pt;
+    font-weight: 600;
+    color: #4a5568;
+    margin: 4px 0;
+  }
+  .project-title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #1a365d;
+    margin: 15px 0 5px 0;
+  }
+  .meta-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .meta-table th, .meta-table td {
+    border: 1px solid #cbd5e0;
+    padding: 8px 12px;
+    font-size: 10pt;
+    text-align: left;
+  }
+  .meta-table th {
+    background-color: #edf2f7;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: 16pt;
+    color: #2b6cb0;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-top: 30px;
+    page-break-after: avoid;
+  }
+  h2 {
+    font-size: 13pt;
+    color: #2d3748;
+    margin-top: 20px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 11pt;
+    color: #4a5568;
+    margin-top: 15px;
+    page-break-after: avoid;
+  }
+  p, li {
+    text-align: justify;
+    font-size: 10.5pt;
+  }
+  ul, ol {
+    padding-left: 20px;
+  }
+  .formula-box {
+    background: #f7fafc;
+    border-left: 4px solid #3182ce;
+    padding: 10px 15px;
+    margin: 12px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 10.5pt;
+    color: #2c5282;
+  }
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    font-size: 9.5pt;
+  }
+  table.data-table th, table.data-table td {
+    border: 1px solid #cbd5e0;
+    padding: 6px 10px;
+    text-align: left;
+  }
+  table.data-table th {
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+  }
+  table.data-table tr:nth-child(even) {
+    background-color: #f7fafc;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 8.5pt;
+    font-weight: bold;
+  }
+  .badge-pass { background: #c6f6d5; color: #22543d; }
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-block">
+  <div class="college-title">Sarvajanik College of Engineering and Technology (SCET)</div>
+  <div class="dept-title">Department of Information Technology</div>
+  <div style="font-size: 11pt; color: #718096; margin-top: 4px;">Course: Project-1 (BTIT16701) | Academic Year: 2026–2027</div>
+  <div class="project-title">DemandOpt AI: AI-Powered Demand Forecasting & Inventory Optimization System</div>
+</div>
+
+<table class="meta-table">
+  <tr>
+    <th colspan="3" style="text-align: center; background-color: #2b6cb0; color: white;">PROJECT TEAM MEMBERS</th>
+  </tr>
+  <tr>
+    <th>Roll No.</th>
+    <th>Enrollment ID</th>
+    <th>Student Name</th>
+  </tr>
+  <tr>
+    <td>01</td>
+    <td>ET23BTIT010</td>
+    <td>Zeel Dhorajiya</td>
+  </tr>
+  <tr>
+    <td>02</td>
+    <td>ET23BTIT035</td>
+    <td>Harnil Navadiya</td>
+  </tr>
+  <tr>
+    <td>03</td>
+    <td>ET23BTIT037</td>
+    <td>Aryan Pandey</td>
+  </tr>
+  <tr>
+    <td>04</td>
+    <td>ET23BTIT040</td>
+    <td>Dhaval Patel</td>
+  </tr>
+  <tr>
+    <td>05</td>
+    <td>ET23BTIT049</td>
+    <td>Kirtan Savani</td>
+  </tr>
+  <tr>
+    <th colspan="3" style="background-color: #edf2f7;">Project Supervisor: <strong>Prof. (Dr.) Dhruti Sharma</strong>, Department of Information Technology</th>
+  </tr>
+</table>
+
+<h1>Executive Summary / Abstract</h1>
+<p>
+In contemporary enterprise supply chains and retail environments, inventory mismanagement represents one of the largest drains on corporate profitability. Organizations consistently battle two opposing operational risks: <strong>excess inventory</strong> (which bloats holding and capital carrying costs, induces depreciation, and limits liquidity) and <strong>insufficient inventory</strong> (which triggers stock-out catastrophes, customer attrition, and unfulfilled demand). Traditional inventory management platforms remain largely reactive, tracking stock only after transactions occur and relying on human intuition or static threshold rules.
+</p>
+<p>
+<strong>DemandOpt AI</strong> is an intelligent, full-stack enterprise web application engineered to transform inventory control from a reactive tracking mechanism into a predictive, cost-minimizing decision engine. Built on a decoupled architecture utilizing <strong>Java 21/25, Spring Boot 3.4.3, Spring Security 6 (JJWT 0.12), Spring Data JPA, MySQL 8, React 18, and Vite</strong>, the platform incorporates:
+</p>
+<ol>
+  <li><strong>Time-Series Machine Learning Models:</strong> A hybrid forecasting ensemble combining First-Order Exponential Smoothing, Ordinary Least Squares (OLS) Linear Trend Regression, and Weighted Moving Averages to project future consumption along with a <strong>95% Confidence Interval band</strong>.</li>
+  <li><strong>Operations Research Optimization:</strong> Automated calculations of dynamic <strong>Safety Stock (SS)</strong>, <strong>Reorder Points (ROP)</strong>, and <strong>Economic Order Quantity (EOQ)</strong> derived from supplier lead times and historical demand volatility.</li>
+  <li><strong>Closed-Loop Replenishment Lifecycle:</strong> An end-to-end operational pipeline linking atomic point-of-sale customer order fulfillment, dynamic stock status categorization (<code>IN_STOCK</code>, <code>LOW_STOCK</code>, <code>OUT_OF_STOCK</code>, <code>OVERSTOCKED</code>), and single-click purchase order restock synchronization.</li>
+</ol>
+
+<h1>1. Introduction & Problem Statement</h1>
+<p>
+Inventory represents the physical stock of goods that an enterprise maintains to facilitate customer demand and business operations. Traditional inventory tools suffer from 7 critical bottlenecks:
+</p>
+<ul>
+  <li><strong>Manual Monitoring:</strong> Periodic spreadsheet updates with severe synchronization lag.</li>
+  <li><strong>Unexpected Stock-Outs:</strong> Lack of automated early warnings before stock depletes.</li>
+  <li><strong>Overstocking:</strong> Capital frozen in excess stock incurring depreciation and warehouse overhead.</li>
+  <li><strong>Difficult Demand Estimation:</strong> Lack of statistical algorithms to project consumer demand.</li>
+  <li><strong>Intuition-Based Reorders:</strong> Order quantities determined by human guesswork.</li>
+  <li><strong>Data Fragmentation:</strong> POS orders and warehouse inventories stored in disconnected silos.</li>
+  <li><strong>Neglected Sales History:</strong> Historical sales data collected without predictive extraction.</li>
+</ul>
+
+<div class="formula-box">
+<strong>Formal Problem Statement:</strong><br>
+"To develop a web-based intelligent inventory management system that can monitor stock, maintain sales history, forecast future demand, and support inventory replenishment decisions."
+</div>
+
+<div class="page-break"></div>
+
+<h1>2. System Architecture & Tech Stack</h1>
+<table class="data-table">
+  <tr>
+    <th>Layer</th>
+    <th>Technologies Used</th>
+    <th>Key Responsibility</th>
+  </tr>
+  <tr>
+    <td><strong>Frontend Tier</strong></td>
+    <td>React 18, Vite 6, Tailwind CSS 4</td>
+    <td>Single Page Application (SPA), responsive UI, component-driven views</td>
+  </tr>
+  <tr>
+    <td><strong>Data Visualization</strong></td>
+    <td>Recharts, Lucide Icons</td>
+    <td>Interactive demand forecasting curves, 95% confidence bands, revenue charts</td>
+  </tr>
+  <tr>
+    <td><strong>Backend API Tier</strong></td>
+    <td>Java 21/25, Spring Boot 3.4.3, Spring MVC</td>
+    <td>Stateless REST APIs, layered service architecture (Controller-Service-Repository)</td>
+  </tr>
+  <tr>
+    <td><strong>Security Layer</strong></td>
+    <td>Spring Security 6, JJWT 0.12.7, BCrypt</td>
+    <td>Stateless JWT token filter, Role-Based Access Control (Admin vs. Manager)</td>
+  </tr>
+  <tr>
+    <td><strong>Persistence Layer</strong></td>
+    <td>Spring Data JPA, Hibernate, MySQL 8.0, H2</td>
+    <td>Relational 3NF persistence, custom JPQL time-series aggregations</td>
+  </tr>
+</table>
+
+<h1>3. Mathematical Models & Optimization Formulations</h1>
+
+<h2>3.1 First-Order Exponential Smoothing (α = 0.35)</h2>
+<p>Recursively assigns exponentially decreasing weights to past consumption observations:</p>
+<div class="formula-box">
+  S<sub>t</sub> = α · y<sub>t</sub> + (1 - α) · S<sub>t-1</sub>
+</div>
+
+<h2>3.2 Ordinary Least Squares (OLS) Linear Trend Regression</h2>
+<p>Determines demand growth momentum by finding the optimal slope (m) and intercept (c):</p>
+<div class="formula-box">
+  m = [ n ∑(t · y<sub>t</sub>) - ∑t ∑y<sub>t</sub> ] / [ n ∑t² - (∑t)² ]<br>
+  c = [ ∑y<sub>t</sub> - m ∑t ] / n<br>
+  Forecast: ŷ<sub>n+1</sub> = m · (n + 1) + c
+</div>
+
+<h2>3.3 Hybrid Ensemble Model</h2>
+<p>Combines models to eliminate single-model bias and variance:</p>
+<div class="formula-box">
+  Predicted Demand = (0.40 · Exponential Smoothing) + (0.35 · Linear Trend) + (0.25 · Moving Average)
+</div>
+
+<h2>3.4 95% Confidence Interval Boundaries</h2>
+<div class="formula-box">
+  Lower Bound = Predicted Demand × (1 - 1.96 · StdError)<br>
+  Upper Bound = Predicted Demand × (1 + 1.96 · StdError)
+</div>
+
+<h2>3.5 Safety Stock (SS) & Reorder Point (ROP)</h2>
+<div class="formula-box">
+  Safety Stock (SS) = Z × σ<sub>daily</sub> × √(Lead Time)<br>
+  Reorder Point (ROP) = (Daily Demand × Lead Time) + Safety Stock<br>
+  <em>(where Z = 1.65 for a 95% cycle service level, and σ<sub>daily</sub> is standard deviation of demand)</em>
+</div>
+
+<h2>3.6 Economic Order Quantity (EOQ)</h2>
+<p>Minimizes the sum of annual order setup costs and holding costs:</p>
+<div class="formula-box">
+  EOQ = √[ (2 × Annual Demand × Order Cost) / Holding Cost per Unit ]
+</div>
+
+<div class="page-break"></div>
+
+<h1>4. The 5 Core System Modules</h1>
+<ul>
+  <li><strong>Module 1: Authentication & Role-Based Access Control (RBAC):</strong> Stateless JWT token verification, BCrypt password hashing, distinct permissions for <code>ROLE_ADMIN</code> (catalog modifications, batch forecasting) and <code>ROLE_INVENTORY_MANAGER</code> (sales transactions, manual adjustments, reorders).</li>
+  <li><strong>Module 2: Product & Dynamic Inventory Management:</strong> Product parameter management (SKU, Lead Time, Order Cost, Holding Cost Rate). Dynamic stock state assignment (<code>IN_STOCK</code>, <code>LOW_STOCK</code>, <code>OUT_OF_STOCK</code>, <code>OVERSTOCKED</code>) with audit-safe adjustments (<code>RESTOCK</code>, <code>RETURN</code>, <code>DAMAGE</code>, <code>INVENTORY_COUNT</code>).</li>
+  <li><strong>Module 3: Sales Processing & Transaction Engine:</strong> Multi-product point-of-sale checkout, atomic stock deduction preventing negative inventory, and continuous time-series sales generation.</li>
+  <li><strong>Module 4: AI Demand Forecasting Engine:</strong> Dynamic historical time-series extraction via JPQL, multi-model execution, 95% confidence interval estimation, and automated nightly batch forecasting via Spring <code>@Scheduled</code>.</li>
+  <li><strong>Module 5: Inventory Optimization & Replenishment (EOQ):</strong> Continuous ROP breach monitoring, automated EOQ recommendation generation, and single-click purchase order restock synchronization (<code>PENDING</code> → <code>APPROVED</code> → <code>ORDERED</code>).</li>
+</ul>
+
+<h1>5. Verification & Test Results</h1>
+<table class="data-table">
+  <tr>
+    <th>Test ID</th>
+    <th>Test Scenario</th>
+    <th>HTTP Method & URI</th>
+    <th>Expected Status</th>
+    <th>Result</th>
+  </tr>
+  <tr>
+    <td>TC-01</td>
+    <td>User login with valid credentials</td>
+    <td><code>POST /api/auth/login</code></td>
+    <td>200 OK (JWT returned)</td>
+    <td><span class="badge badge-pass">PASS</span></td>
+  </tr>
+  <tr>
+    <td>TC-02</td>
+    <td>Catalog creation by non-admin manager</td>
+    <td><code>POST /api/products</code></td>
+    <td>403 Forbidden</td>
+    <td><span class="badge badge-pass">PASS</span></td>
+  </tr>
+  <tr>
+    <td>TC-03</td>
+    <td>Checkout exceeding available warehouse stock</td>
+    <td><code>POST /api/sales</code></td>
+    <td>400 Bad Request</td>
+    <td><span class="badge badge-pass">PASS</span></td>
+  </tr>
+  <tr>
+    <td>TC-04</td>
+    <td>Hybrid Ensemble AI forecast generation</td>
+    <td><code>POST /api/forecasts/generate</code></td>
+    <td>200 OK (Forecast data & 95% band)</td>
+    <td><span class="badge badge-pass">PASS</span></td>
+  </tr>
+  <tr>
+    <td>TC-05</td>
+    <td>Reorder recommendation execution</td>
+    <td><code>PUT /api/reorders/1/status</code></td>
+    <td>200 OK (Stock incremented by EOQ)</td>
+    <td><span class="badge badge-pass">PASS</span></td>
+  </tr>
+</table>
+
+<h1>6. Conclusion</h1>
+<p>
+<strong>DemandOpt AI</strong> delivers an end-to-end, cost-minimizing inventory management platform. By uniting Spring Boot 3, React 18, statistical machine learning, and Operations Research formulations, the system:
+</p>
+<ol>
+  <li>Replaces manual estimation with statistical demand forecasts and 95% confidence interval boundaries.</li>
+  <li>Eliminates stock-outs via dynamic Reorder Points (ROP) and calculated Safety Stock buffers.</li>
+  <li>Minimizes annual inventory carrying costs using Economic Order Quantity (EOQ).</li>
+  <li>Ensures enterprise data integrity and role governance via stateless JWT security.</li>
+</ol>
+
+<br>
+<hr style="border: 0; border-top: 1px solid #cbd5e0; margin-top: 40px;">
+<div style="text-align: center; font-size: 9pt; color: #a0aec0; margin-top: 10px;">
+  DemandOpt AI &copy; 2026-2027 | Department of Information Technology, SCET Surat
+</div>
+
+</body>
+</html>

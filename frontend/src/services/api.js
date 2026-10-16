@@ -1,7 +1,8 @@
 import axios from "axios";
 
+// Automatically uses Vercel environment variable in production, falls back to /api locally
 const api = axios.create({
-  baseURL: "/api",
+  baseURL: import.meta.env.VITE_API_BASE_URL || "/api",
   headers: {
     "Content-Type": "application/json",
   },
