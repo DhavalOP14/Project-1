@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { RefreshCw, Zap } from "lucide-react";
 import Header from "../../components/layout/Header";
 import ReorderTable from "../../components/reorder/ReorderTable";
+import { useToast } from "../../context/ToastContext";
 import {
   getAllRecommendations,
   getRecommendationsByStatus,
@@ -14,6 +15,7 @@ const ReorderRecommendations = () => {
   const [activeFilter, setActiveFilter] = useState("ALL");
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
+  const { success, error } = useToast();
 
   useEffect(() => {
     fetchRecommendations();
@@ -37,9 +39,10 @@ const ReorderRecommendations = () => {
   const handleUpdateStatus = async (id, status) => {
     try {
       await updateRecommendationStatus(id, status);
-      fetchRecommendations();
+      await fetchRecommendations();
+      success(`Recommendation marked as ${status.toLowerCase()} successfully!`);
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to update recommendation status");
+      error(err.response?.data?.message || "Failed to update recommendation status");
     }
   };
 
@@ -48,9 +51,9 @@ const ReorderRecommendations = () => {
       setAnalyzing(true);
       await triggerReorderAnalysis();
       await fetchRecommendations();
-      alert("Inventory optimization analysis recalculated successfully!");
+      success("Inventory optimization analysis recalculated successfully!");
     } catch (err) {
-      alert("Failed to run optimization analysis");
+      error("Failed to run optimization analysis");
     } finally {
       setAnalyzing(false);
     }

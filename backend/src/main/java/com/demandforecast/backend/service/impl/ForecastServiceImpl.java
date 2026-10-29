@@ -93,7 +93,9 @@ public class ForecastServiceImpl implements ForecastService {
         double errorRate = 0.08;
         int dataPoints = salesSeries.size();
 
-        if (algorithm.contains("EXPONENTIAL")) {
+        if (algorithm.contains("HOLT") || algorithm.contains("WINTER") || algorithm.contains("SEASONAL")) {
+            predicted = calculateHoltWintersSeasonal(salesSeries, 4, 0.35, 0.15, 0.25);
+        } else if (algorithm.contains("EXPONENTIAL")) {
             predicted = calculateExponentialSmoothing(salesSeries, 0.35);
         } else if (algorithm.contains("TREND") || algorithm.contains("LINEAR")) {
             predicted = calculateLinearRegressionTrend(salesSeries);
@@ -104,6 +106,12 @@ public class ForecastServiceImpl implements ForecastService {
             double lin = calculateLinearRegressionTrend(salesSeries);
             double ma = calculateMovingAverage(salesSeries, Math.min(4, salesSeries.size()));
             predicted = (0.4 * exp) + (0.35 * lin) + (0.25 * ma);
+        }
+
+        boolean isEventActive = Boolean.TRUE.equals(request.getEventSurgeActive());
+        if (isEventActive) {
+            // Incorporate Event / Festival / Promotional Surge Multiplier (e.g. Diwali peak surge)
+            predicted = predicted * 1.40;
         }
 
         if (period == ForecastPeriod.MONTHLY) {
@@ -132,6 +140,10 @@ public class ForecastServiceImpl implements ForecastService {
         forecastPoint.put("confidenceLower", lower);
         forecastPoint.put("confidenceUpper", upper);
         forecastPoint.put("type", "FORECAST");
+        if (isEventActive) {
+            forecastPoint.put("eventMarker", request.getEventName() != null ? request.getEventName() : "Diwali / Festive Surge");
+            forecastPoint.put("seasonalIndex", 1.40);
+        }
         trendData.add(forecastPoint);
 
         DemandForecast forecast = DemandForecast.builder()
@@ -186,6 +198,38 @@ public class ForecastServiceImpl implements ForecastService {
         double sum = 0;
         for (int i = size - actualWindow; i < size; i++) sum += series.get(i);
         return sum / actualWindow;
+    }
+
+    private double calculateHoltWintersSeasonal(List<Double> series, int seasonLength, double alpha, double beta, double gamma) {
+        int n = series.size();
+        if (n < 2) return series.isEmpty() ? 10.0 : series.get(0);
+
+        int sLen = Math.min(seasonLength, Math.max(2, n / 2));
+        double level = series.get(0);
+        double trend = (series.get(n - 1) - series.get(0)) / (double) n;
+
+        // Initialize seasonal indices (St)
+        double[] seasonal = new double[sLen];
+        for (int i = 0; i < sLen; i++) {
+            seasonal[i] = series.get(i % n) / Math.max(1.0, level);
+        }
+
+        // Iterative smoothing updates over historical observations
+        for (int i = 0; i < n; i++) {
+            double val = series.get(i);
+            int seasonIdx = i % sLen;
+            double prevLevel = level;
+
+            // Triple exponential smoothing updates
+            level = alpha * (val / Math.max(0.1, seasonal[seasonIdx])) + (1.0 - alpha) * (level + trend);
+            trend = beta * (level - prevLevel) + (1.0 - beta) * trend;
+            seasonal[seasonIdx] = gamma * (val / Math.max(0.1, level)) + (1.0 - gamma) * seasonal[seasonIdx];
+        }
+
+        // Forecast projection factoring seasonal index
+        int forecastSeasonIdx = n % sLen;
+        double forecastValue = (level + trend) * seasonal[forecastSeasonIdx];
+        return Math.max(1.0, forecastValue);
     }
 
     @Override

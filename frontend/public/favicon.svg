@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded App Icon Background -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Brain Circuit & AI Network Nodes in Clean White -->
+  <g transform="translate(10, 10)" filter="url(#glow)" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Left Brain Contour -->
+    <path d="M22 8 A6 6 0 0 0 10.5 8.5 A7.5 7.5 0 0 0 6 19 A7.5 7.5 0 0 0 7 29 A7 7 0 0 0 22 36 Z" fill="rgba(255,255,255,0.08)"/>
+
+    <!-- Internal Brain Gyri / Neural Synapses -->
+    <path d="M15 25 a7 7 0 0 1 7 -7"/>
+    <path d="M10 18 a6 6 0 0 1 5 -4"/>
+    <path d="M12 30 a6 6 0 0 1 5 -3"/>
+
+    <!-- Circuit Connecting Lines branching to the right -->
+    <path d="M22 14 h10"/>
+    <path d="M22 22 h7"/>
+    <path d="M22 30 h11 a3 3 0 0 1 3 3 v4"/>
+    <path d="M28 14 v-6 a3 3 0 0 1 3 -3 h3"/>
+
+    <!-- Circuit Terminal / Data Nodes (Filled Cyan / White) -->
+    <circle cx="34" cy="5" r="2.2" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="34" cy="14" r="2.2" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="31" cy="22" r="2.2" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+    <circle cx="36" cy="37" r="2.2" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5"/>
+
+    <!-- Upward Trend Accent Indicator -->
+    <path d="M26 27 l5 -5 l4 4 l5 -6" stroke="#38bdf8" stroke-width="2.5"/>
+    <path d="M37 20 h3 v3" stroke="#38bdf8" stroke-width="2.5"/>
+  </g>
+</svg>

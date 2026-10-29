@@ -121,7 +121,7 @@ const ProductForm = ({ initialData, onSubmit, isEdit = false, loading = false })
         />
 
         <InputField
-          label="Unit Selling Price ($)"
+          label="Unit Selling Price (₹)"
           name="unitPrice"
           type="number"
           step="0.01"
@@ -133,7 +133,7 @@ const ProductForm = ({ initialData, onSubmit, isEdit = false, loading = false })
         />
 
         <InputField
-          label="Unit Purchase Cost ($)"
+          label="Unit Purchase Cost (₹)"
           name="unitCost"
           type="number"
           step="0.01"
@@ -156,7 +156,7 @@ const ProductForm = ({ initialData, onSubmit, isEdit = false, loading = false })
         />
 
         <InputField
-          label="Ordering / Setup Cost ($)"
+          label="Ordering / Setup Cost (₹)"
           name="orderCost"
           type="number"
           step="0.01"

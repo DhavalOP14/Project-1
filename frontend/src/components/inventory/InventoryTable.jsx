@@ -5,15 +5,39 @@ const InventoryTable = ({ inventory = [], onOpenAdjustModal }) => {
   const getStatusBadge = (status) => {
     switch (status) {
       case "IN_STOCK":
-        return <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">In Stock</span>;
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-xs whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            In Stock
+          </span>
+        );
       case "LOW_STOCK":
-        return <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-amber-100 text-amber-800 flex items-center gap-1"><AlertTriangle size={12} /> Low Stock</span>;
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-amber-50 text-amber-700 border border-amber-200 shadow-xs whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+            Low Stock
+          </span>
+        );
       case "OUT_OF_STOCK":
-        return <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-rose-100 text-rose-800 flex items-center gap-1"><AlertTriangle size={12} /> Out of Stock</span>;
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-rose-50 text-rose-700 border border-rose-200 shadow-xs whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+            Out of Stock
+          </span>
+        );
       case "OVERSTOCKED":
-        return <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Overstocked</span>;
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-blue-50 text-blue-700 border border-blue-200 shadow-xs whitespace-nowrap">
+            <span className="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+            Overstocked
+          </span>
+        );
       default:
-        return <span className="px-2.5 py-1 text-xs font-semibold rounded-full bg-slate-100 text-slate-800">{status}</span>;
+        return (
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-slate-50 text-slate-700 border border-slate-200 shadow-xs whitespace-nowrap">
+            {status}
+          </span>
+        );
     }
   };
 
@@ -29,7 +53,7 @@ const InventoryTable = ({ inventory = [], onOpenAdjustModal }) => {
             <th className="py-3 px-4 text-center">Reorder Point (ROP)</th>
             <th className="py-3 px-4 text-center">Optimal Level</th>
             <th className="py-3 px-4 text-right">Inventory Value</th>
-            <th className="py-3 px-4 text-center">Status</th>
+            <th className="py-3 px-4 text-center whitespace-nowrap min-w-[130px]">Status</th>
             <th className="py-3 px-4 text-center">Actions</th>
           </tr>
         </thead>
@@ -57,9 +81,9 @@ const InventoryTable = ({ inventory = [], onOpenAdjustModal }) => {
                 <td className="py-3 px-4 text-center font-semibold text-slate-700">{inv.reorderPoint}</td>
                 <td className="py-3 px-4 text-center text-slate-600">{inv.optimalStockLevel}</td>
                 <td className="py-3 px-4 text-right font-medium text-slate-900">
-                  ${Number(inv.totalInventoryValue || 0).toFixed(2)}
+                  ₹{Number(inv.totalInventoryValue || 0).toFixed(2)}
                 </td>
-                <td className="py-3 px-4 text-center">{getStatusBadge(inv.status)}</td>
+                <td className="py-3 px-4 text-center whitespace-nowrap min-w-[130px]">{getStatusBadge(inv.status)}</td>
                 <td className="py-3 px-4 text-center">
                   <button
                     onClick={() => onOpenAdjustModal(inv)}

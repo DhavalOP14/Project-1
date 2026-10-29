@@ -4,6 +4,7 @@ import InventoryTable from "../../components/inventory/InventoryTable";
 import StockUpdateModal from "../../components/inventory/StockUpdateModal";
 import SearchBar from "../../components/common/SearchBar";
 import { getAllInventory, updateStock } from "../../services/inventoryService";
+import { useToast } from "../../context/ToastContext";
 
 const InventoryList = () => {
   const [inventory, setInventory] = useState([]);
@@ -12,6 +13,7 @@ const InventoryList = () => {
   const [loading, setLoading] = useState(true);
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { success, error } = useToast();
 
   useEffect(() => {
     fetchInventory();
@@ -37,9 +39,10 @@ const InventoryList = () => {
   const handleSaveStock = async (payload) => {
     try {
       await updateStock(payload);
-      fetchInventory();
+      await fetchInventory();
+      success("Stock adjustment applied successfully!");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to adjust stock");
+      error(err.response?.data?.message || "Failed to adjust stock");
     }
   };
 

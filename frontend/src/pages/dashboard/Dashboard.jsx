@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   Package,
-  DollarSign,
+  IndianRupee,
   AlertTriangle,
   RefreshCw,
   TrendingUp,
@@ -79,9 +79,9 @@ const Dashboard = () => {
           />
           <StatCard
             title="Inventory Value"
-            value={`$${Number(data?.totalInventoryValue || 0).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+            value={`₹${Number(data?.totalInventoryValue || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
             subtitle="Current warehouse asset value"
-            icon={DollarSign}
+            icon={IndianRupee}
             color="emerald"
           />
           <StatCard
@@ -110,7 +110,7 @@ const Dashboard = () => {
                 <p className="text-xs text-slate-500">Sales data analyzed by machine learning models</p>
               </div>
               <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">
-                Total: ${Number(data?.totalSalesRevenue || 0).toFixed(2)}
+                Total: ₹{Number(data?.totalSalesRevenue || 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
 
@@ -121,8 +121,17 @@ const Dashboard = () => {
                   <XAxis dataKey="month" stroke="#94a3b8" fontSize={11} />
                   <YAxis stroke="#94a3b8" fontSize={11} />
                   <Tooltip
-                    formatter={(val) => [`$${Number(val).toFixed(2)}`, "Revenue"]}
-                    contentStyle={{ backgroundColor: "#0f172a", borderRadius: "8px", border: "none", color: "#fff", fontSize: "12px" }}
+                    formatter={(val) => [`₹${Number(val).toFixed(2)}`, "Revenue"]}
+                    contentStyle={{
+                      backgroundColor: "#ffffff",
+                      borderRadius: "8px",
+                      border: "1px solid #e2e8f0",
+                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                    }}
+                    itemStyle={{ color: "#0f172a", fontWeight: "600" }}
+                    labelStyle={{ color: "#64748b", fontWeight: "600" }}
                   />
                   <Bar dataKey="revenue" fill="#4f46e5" radius={[4, 4, 0, 0]} />
                 </BarChart>
@@ -151,7 +160,19 @@ const Dashboard = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={{ backgroundColor: "#0f172a", borderRadius: "8px", border: "none", color: "#fff", fontSize: "12px" }} />
+                  <Tooltip
+                    formatter={(val, name) => [`${val} products`, name]}
+                    contentStyle={{
+                      backgroundColor: "#ffffff",
+                      borderRadius: "8px",
+                      border: "1px solid #e2e8f0",
+                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                      fontSize: "12px",
+                      fontWeight: "500",
+                    }}
+                    itemStyle={{ color: "#0f172a", fontWeight: "600" }}
+                    labelStyle={{ color: "#64748b", fontWeight: "600" }}
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -227,9 +248,9 @@ const Dashboard = () => {
                       <p className="font-medium text-slate-900">{rec.productName}</p>
                       <p className="text-xs text-slate-500 truncate max-w-xs">{rec.reason}</p>
                     </div>
-                    <div className="text-right">
-                      <span className="font-bold text-indigo-600 block text-sm">+{rec.recommendedQuantity} units</span>
-                      <span className="text-xs text-slate-500">${Number(rec.estimatedCost || 0).toFixed(2)}</span>
+                    <div className="text-right shrink-0">
+                      <span className="font-bold text-indigo-600 block text-sm whitespace-nowrap">+{rec.recommendedQuantity} units</span>
+                      <span className="text-xs text-slate-500 whitespace-nowrap">₹{Number(rec.estimatedCost || 0).toFixed(2)}</span>
                     </div>
                   </div>
                 ))

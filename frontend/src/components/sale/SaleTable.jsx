@@ -39,7 +39,7 @@ const SaleTable = ({ sales = [] }) => {
                   </td>
                   <td className="py-3 px-4 text-center font-medium text-slate-800">{totalQty}</td>
                   <td className="py-3 px-4 text-right font-bold text-slate-900">
-                    ${Number(s.totalAmount).toFixed(2)}
+                    ₹{Number(s.totalAmount).toFixed(2)}
                   </td>
                   <td className="py-3 px-4 text-xs font-mono text-slate-500">
                     {s.createdByUsername || "System"}

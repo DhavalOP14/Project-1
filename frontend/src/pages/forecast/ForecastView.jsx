@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Sparkles, BrainCircuit, Play, History } from "lucide-react";
+import { Sparkles, BrainCircuit, Play, History, Calendar, Flame, Layers } from "lucide-react";
 import Header from "../../components/layout/Header";
 import ForecastChart from "../../components/forecast/ForecastChart";
 import ForecastTable from "../../components/forecast/ForecastTable";
@@ -11,17 +11,21 @@ import {
   runBatchForecasting,
 } from "../../services/forecastService";
 import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../context/ToastContext";
 
 const ForecastView = () => {
   const [products, setProducts] = useState([]);
   const [selectedProductId, setSelectedProductId] = useState("");
   const [period, setPeriod] = useState("MONTHLY");
   const [algorithm, setAlgorithm] = useState("ENSEMBLE");
+  const [eventSurgeActive, setEventSurgeActive] = useState(false);
+  const [eventName, setEventName] = useState("Diwali Festive Season (+40% Spike)");
   const [forecasts, setForecasts] = useState([]);
   const [activeForecast, setActiveForecast] = useState(null);
   const [loading, setLoading] = useState(false);
   const [batchLoading, setBatchLoading] = useState(false);
   const { isAdmin } = useAuth();
+  const { success, error } = useToast();
 
   useEffect(() => {
     fetchInitialData();
@@ -53,14 +57,21 @@ const ForecastView = () => {
         productId: Number(selectedProductId),
         targetPeriod: period,
         preferredAlgorithm: algorithm,
+        eventSurgeActive,
+        eventName: eventSurgeActive ? eventName : null,
       });
       setActiveForecast(result);
 
       // Refresh latest table
       const updated = await getAllLatestForecasts();
       setForecasts(updated);
+      success(
+        eventSurgeActive
+          ? `Demand forecast with seasonal event factor (${eventName}) computed!`
+          : "AI demand forecast generated successfully!"
+      );
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to generate demand forecast");
+      error(err.response?.data?.message || "Failed to generate demand forecast");
     } finally {
       setLoading(false);
     }
@@ -73,9 +84,9 @@ const ForecastView = () => {
       await runBatchForecasting();
       const updated = await getAllLatestForecasts();
       setForecasts(updated);
-      alert("Batch demand forecasting completed successfully!");
+      success("Batch demand forecasting completed successfully!");
     } catch (err) {
-      alert("Failed to run batch forecasting");
+      error("Failed to run batch forecasting");
     } finally {
       setBatchLoading(false);
     }
@@ -148,11 +159,68 @@ const ForecastView = () => {
               onChange={(e) => setAlgorithm(e.target.value)}
               options={[
                 { value: "ENSEMBLE", label: "Hybrid Ensemble (Recommended)" },
-                { value: "EXPONENTIAL_SMOOTHING", label: "Exponential Smoothing" },
-                { value: "LINEAR_TREND", label: "Linear Trend Regression" },
+                { value: "HOLT_WINTERS_SEASONAL", label: "Holt-Winters Triple Exponential (Seasonal Multipliers)" },
+                { value: "EXPONENTIAL_SMOOTHING", label: "First-Order Exponential Smoothing" },
+                { value: "LINEAR_TREND", label: "Linear Trend Regression (OLS)" },
                 { value: "MOVING_AVERAGE", label: "Weighted Moving Average" },
               ]}
             />
+
+            {/* Advanced Seasonality & Promo Event Marker */}
+            <div className="sm:col-span-4 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-2 bg-amber-100 text-amber-800 rounded-lg">
+                    <Flame size={18} />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      Event & Promotion Surge Marker (Diwali, Holiday & Campaign Seasonality)
+                    </h4>
+                    <p className="text-[11px] text-slate-500">
+                      Accounts for anomalous surges ($S_t$) during festivals without skewing everyday baseline demand.
+                    </p>
+                  </div>
+                </div>
+
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={eventSurgeActive}
+                    onChange={(e) => setEventSurgeActive(e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-amber-600"></div>
+                  <span className="ml-2 text-xs font-semibold text-slate-700">
+                    {eventSurgeActive ? "Surge Active" : "Disabled"}
+                  </span>
+                </label>
+              </div>
+
+              {eventSurgeActive && (
+                <div className="mt-3 pt-3 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-3 animate-in fade-in duration-200">
+                  <SelectField
+                    label="Upcoming Festival / Promotion Event"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                    options={[
+                      { value: "Diwali Festive Season (+40% Spike)", label: "Diwali Festival Surge (+40% Seasonal Index St)" },
+                      { value: "Black Friday / Holiday Peak (+35% Spike)", label: "Black Friday & Holiday Peak (+35%)" },
+                      { value: "Mega Clearance Discount (+25% Spike)", label: "Clearance Promo Discount Campaign (+25%)" },
+                      { value: "Summer Seasonal Peak (+20% Spike)", label: "Summer Seasonal Peak (+20%)" },
+                    ]}
+                  />
+                  <div className="flex items-end pb-1">
+                    <div className="text-xs text-amber-800 bg-amber-50 border border-amber-200 p-2.5 rounded-lg w-full flex items-center gap-2">
+                      <Sparkles size={16} className="text-amber-600 shrink-0" />
+                      <span>
+                        Triple Exponential Seasonal indices ($S_t = 1.40$) will be applied to peak projection without contaminating baseline historical trend.
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <div className="sm:col-span-4 flex justify-end">
               <button
@@ -169,7 +237,24 @@ const ForecastView = () => {
 
         {/* Prediction Chart Results */}
         {activeForecast && (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <>
+            {(activeForecast.algorithmUsed?.includes("HOLT") || eventSurgeActive) && (
+              <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-xl flex items-center justify-between text-xs text-amber-900">
+                <div className="flex items-center gap-2">
+                  <Flame size={18} className="text-amber-600" />
+                  <span className="font-semibold">
+                    Seasonal Multiplier Active:{" "}
+                    <span className="font-normal">
+                      {eventSurgeActive ? eventName : "Holt-Winters Triple Exponential Smoothing ($S_t$) with seasonal indices"}
+                    </span>
+                  </span>
+                </div>
+                <span className="bg-amber-200 text-amber-900 font-bold px-2 py-0.5 rounded-full text-[11px]">
+                  Seasonal Factor St = 1.40
+                </span>
+              </div>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-xl text-center">
               <span className="text-xs font-semibold text-emerald-800 uppercase tracking-wider">Predicted Demand</span>
               <p className="text-3xl font-extrabold text-emerald-700 mt-1">{activeForecast.predictedDemand}</p>
@@ -198,6 +283,7 @@ const ForecastView = () => {
               <p className="text-xs text-blue-600 mt-1">Trend momentum vs previous period</p>
             </div>
           </div>
+          </>
         )}
 
         {/* Interactive Chart */}

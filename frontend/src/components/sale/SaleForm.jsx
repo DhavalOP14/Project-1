@@ -155,7 +155,7 @@ const SaleForm = ({ onSubmit, loading = false }) => {
               </div>
 
               <div className="w-28 text-right font-medium text-sm text-slate-800">
-                ${(row.unitPrice * (row.quantity || 0)).toFixed(2)}
+                ₹{(row.unitPrice * (row.quantity || 0)).toFixed(2)}
               </div>
 
               <button
@@ -174,7 +174,7 @@ const SaleForm = ({ onSubmit, loading = false }) => {
       <div className="border-t border-slate-100 pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         <div className="text-slate-600 text-sm">
           Grand Total:{" "}
-          <span className="text-xl font-bold text-slate-900">${calculateTotal().toFixed(2)}</span>
+          <span className="text-xl font-bold text-slate-900">₹{calculateTotal().toFixed(2)}</span>
         </div>
 
         <div className="flex gap-2">

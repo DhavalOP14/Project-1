@@ -11,14 +11,18 @@ public class ForecastGenerateRequest {
     private ForecastPeriod targetPeriod;
     private String preferredAlgorithm;
     private Integer horizonPeriods;
+    private Boolean eventSurgeActive;
+    private String eventName;
 
     public ForecastGenerateRequest() {}
 
-    public ForecastGenerateRequest(Long productId, ForecastPeriod targetPeriod, String preferredAlgorithm, Integer horizonPeriods) {
+    public ForecastGenerateRequest(Long productId, ForecastPeriod targetPeriod, String preferredAlgorithm, Integer horizonPeriods, Boolean eventSurgeActive, String eventName) {
         this.productId = productId;
         this.targetPeriod = targetPeriod;
         this.preferredAlgorithm = preferredAlgorithm;
         this.horizonPeriods = horizonPeriods;
+        this.eventSurgeActive = eventSurgeActive;
+        this.eventName = eventName;
     }
 
     public static ForecastGenerateRequestBuilder builder() { return new ForecastGenerateRequestBuilder(); }
@@ -28,12 +32,16 @@ public class ForecastGenerateRequest {
         private ForecastPeriod targetPeriod;
         private String preferredAlgorithm;
         private Integer horizonPeriods;
+        private Boolean eventSurgeActive;
+        private String eventName;
 
         public ForecastGenerateRequestBuilder productId(Long productId) { this.productId = productId; return this; }
         public ForecastGenerateRequestBuilder targetPeriod(ForecastPeriod targetPeriod) { this.targetPeriod = targetPeriod; return this; }
         public ForecastGenerateRequestBuilder preferredAlgorithm(String preferredAlgorithm) { this.preferredAlgorithm = preferredAlgorithm; return this; }
         public ForecastGenerateRequestBuilder horizonPeriods(Integer horizonPeriods) { this.horizonPeriods = horizonPeriods; return this; }
-        public ForecastGenerateRequest build() { return new ForecastGenerateRequest(productId, targetPeriod, preferredAlgorithm, horizonPeriods); }
+        public ForecastGenerateRequestBuilder eventSurgeActive(Boolean eventSurgeActive) { this.eventSurgeActive = eventSurgeActive; return this; }
+        public ForecastGenerateRequestBuilder eventName(String eventName) { this.eventName = eventName; return this; }
+        public ForecastGenerateRequest build() { return new ForecastGenerateRequest(productId, targetPeriod, preferredAlgorithm, horizonPeriods, eventSurgeActive, eventName); }
     }
 
     public Long getProductId() { return productId; }
@@ -44,4 +52,8 @@ public class ForecastGenerateRequest {
     public void setPreferredAlgorithm(String preferredAlgorithm) { this.preferredAlgorithm = preferredAlgorithm; }
     public Integer getHorizonPeriods() { return horizonPeriods; }
     public void setHorizonPeriods(Integer horizonPeriods) { this.horizonPeriods = horizonPeriods; }
+    public Boolean getEventSurgeActive() { return eventSurgeActive; }
+    public void setEventSurgeActive(Boolean eventSurgeActive) { this.eventSurgeActive = eventSurgeActive; }
+    public String getEventName() { return eventName; }
+    public void setEventName(String eventName) { this.eventName = eventName; }
 }

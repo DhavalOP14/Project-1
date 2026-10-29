@@ -6,12 +6,14 @@ import ProductTable from "../../components/product/ProductTable";
 import SearchBar from "../../components/common/SearchBar";
 import { getAllProducts, deleteProduct } from "../../services/productService";
 import { useAuth } from "../../context/AuthContext";
+import { useToast } from "../../context/ToastContext";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const { isAdmin } = useAuth();
+  const { success, error } = useToast();
 
   useEffect(() => {
     fetchProducts();
@@ -36,8 +38,9 @@ const ProductList = () => {
     try {
       await deleteProduct(id);
       setProducts(products.filter((p) => p.id !== id));
+      success("Product deleted successfully");
     } catch (err) {
-      alert(err.response?.data?.message || "Failed to delete product");
+      error(err.response?.data?.message || "Failed to delete product");
     }
   };
 
